@@ -102,12 +102,12 @@ void reverse_string(struct main_buffer *m_buffer, char *str)
 /**
  * struct_init - init main data structure
  *
- * @m_buffer: main data struc 
- * 
+ * @m_buffer: main data struc
+ *
  * Return: non - void finct
  */
 
-void struct_init (struct main_buffer *m_buffer)
+void struct_init(struct main_buffer *m_buffer)
 {
 	m_buffer->index = 0;
 	m_buffer->len = 0;

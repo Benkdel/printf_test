@@ -27,7 +27,7 @@ int gargabe_collector(struct main_buffer *m_buffer, const char *format)
  * @m_buffer: main data structure
  * @state: int
  * @sub_state: int
- * 
+ *
  * Return: 0 if all is ok / -1 if not
  */
 int gargabe_collector_2(struct main_buffer *m_buffer, int state, int sub_state)

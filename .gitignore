@@ -1,6 +1,7 @@
 .vscode
 *~
 main.c
+mainc
 a.out
 run.sh
 valg.sh

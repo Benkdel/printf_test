@@ -1,14 +1,14 @@
 #include "main.h"
 
 /**
- * norm_state - checks 
- * 
+ * norm_state - checks
+ *
  * @c: format c
  * @m_buffer: main data struct
- * @n: pointer to state
- *  
+ * @state: pointer to state
+ *
  */
-void norm_state (char c, struct main_buffer *m_buffer, int *state)
+void norm_state(char c, struct main_buffer *m_buffer, int *state)
 {
 	switch (c)
 	{
@@ -23,15 +23,16 @@ void norm_state (char c, struct main_buffer *m_buffer, int *state)
 
 /**
  * form_state - checks dentro formato
- * 
- * @sub_state: estado dentro de formato
+ *
+ * * @s: estado dentro de formato
+ * @sb: sub stado
  * @m_buffer: main data struct
  * @f: char of format
- * 
+ *
  * Return: 1 if is true, 0 if false
- *  
+ *
  */
-int form_state (int sb, int *s, struct main_buffer *m_buffer, char f)
+int form_state(int sb, int *s, struct main_buffer *m_buffer, char f)
 {
 	int isTrue = 1;
 
@@ -58,5 +59,5 @@ int form_state (int sb, int *s, struct main_buffer *m_buffer, char f)
 		break;
 	}
 
-	return (isTrue);	
+	return (isTrue);
 }

@@ -4,7 +4,6 @@
  * *get_format_func - evaluates which function is correct for each format
  *
  * @f: user input format
- * @p: pos
  *
  * Return: pointer to function format
  *
