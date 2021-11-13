@@ -7,19 +7,18 @@
  * @c: character to be push into buffer
  * @index: position
  *
- * Return: updated index after last push
+ * Return: none - void function
  */
-unsigned int push_char(char *main_buffer, char c, unsigned int index)
+void push_char(struct main_buffer *m_buffer, char c)
 {
-	if (main_buffer == NULL)
+	if (m_buffer == NULL)
 	{
-		free(main_buffer);
-		return (0);
+		free(m_buffer->buffer_data);
 	}
 
-	main_buffer[index] = c;
-	index++;
-	return (index);
+	m_buffer->buffer_data[m_buffer->index] = c;
+	m_buffer->len++;
+	m_buffer->index++;
 }
 
 /**
@@ -28,11 +27,11 @@ unsigned int push_char(char *main_buffer, char c, unsigned int index)
  * @main_buffer: main buffer string
  * @data_size: size of valid data to print in bytes
  *
- * Return: write into standard output
+ * Return: none - void function
  */
-unsigned int write_buffer(char *main_buffer, unsigned int data_size)
+void write_buffer(struct main_buffer *m_buffer)
 {
-	return (write(1, main_buffer, data_size));
+	write(1, m_buffer->buffer_data, m_buffer->index);
 }
 
 /**
@@ -40,20 +39,13 @@ unsigned int write_buffer(char *main_buffer, unsigned int data_size)
  * and reset if necessary
  * @main_buffer: main buffer string
  * @index: current index of data
+ * Return: none - void
  *
- * Return: 0 (Success)
  */
-int check_overflow(char *main_buffer, unsigned int index, unsigned int new_bytes)
+void check_overflow(struct main_buffer *m_buffer, unsigned int new_bytes)
 {
-	int _overflow = ((int)index + (int)new_bytes - BUFFERSIZE);
+	int _overflow = ((int)m_buffer->index + (int)new_bytes - BUFFERSIZE);
 
 	if (_overflow >= 0)
-	{
-		write_buffer(main_buffer, index);
-		return (0);
-	}
-	else
-	{
-		return (index);
-	}
+		write_buffer(m_buffer);
 }

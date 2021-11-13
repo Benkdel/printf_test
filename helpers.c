@@ -43,9 +43,9 @@ char *_strncpy(char *dest, char *src, int n)
  * @num: number a convert
  * @h: Hexadecimal Caps
  *
- * Return: length string
+ * Return: none - void function
  */
-int convert_base(char *main_buffer, unsigned int index, int base, unsigned int num, int h)
+void convert_base(struct main_buffer *m_buffer, int base, unsigned int num, int h)
 {
 	unsigned int n = num, count = 1;
 	char *temp, buf[17], *ptr;
@@ -54,8 +54,7 @@ int convert_base(char *main_buffer, unsigned int index, int base, unsigned int n
 	_strncpy(buf, (h == 0) ? "0123456789ABCDEF" : "0123456789abcdef", 17);
 	if (n == 0)
 	{
-		index = push_char(main_buffer, '0', index);
-		return (index);
+		push_char(m_buffer, '0');
 	}
 	while (n /= base)
 		count++;
@@ -63,7 +62,6 @@ int convert_base(char *main_buffer, unsigned int index, int base, unsigned int n
 	if (temp == NULL)
 	{
 		free(temp);
-		return (-1);
 	}
 	ptr = &temp[count], *ptr = '\0', ptr--;
 	while (num > 0)
@@ -74,11 +72,20 @@ int convert_base(char *main_buffer, unsigned int index, int base, unsigned int n
 	}
 	while (i > 0)
 	{
-		index = push_char(main_buffer, temp[j], index);
+		push_char(m_buffer, temp[j]);
 		j++, i--;
 	}
 	free(temp);
-	return (index);
+}
+void reverse_string(struct main_buffer *m_buffer, char *str)
+{
+	int x = 0;
+	while (*(str + x))
+		x++;
+	for (x = x - 1; x >= 0; x--)
+	{
+		push_char(m_buffer, str[x]);		
+	}
 }
 
 /**
@@ -166,53 +173,46 @@ int check_sharp_state(char c)
  * @index: index of last written char
  * @f: flag
  * 
- * Return: number of chars written
+ * Return: none - void function
  */
-int flags_modifier(char *main_buffer, unsigned int index, mods *m)
+void flags_modifier(struct main_buffer *m_buffer)
 {
-	if (m != NULL)
+	if (m_buffer != NULL)
 	{
-		switch (m->f)
+		switch (m_buffer->f)
 		{
 		case FLAGS_PLUS:
-			index = check_overflow(main_buffer, index, 1);
-			index = push_char(main_buffer, '+', index);
-			return (index);
+			check_overflow(m_buffer, 1);
+			push_char(m_buffer, '+');
 			break;
 		
 		case FLAGS_SPACE:
-			index = check_overflow(main_buffer, index, 1);
-			index = push_char(main_buffer, ' ', index);
-			return (index);
+			check_overflow(m_buffer, 1);
+			push_char(m_buffer, ' ');
 			break;
 		
 		case FLAGS_SHARP_OCTAL:
-			index = check_overflow(main_buffer, index, 1);
-			index = push_char(main_buffer, '0', index);
-			return (index);
+			check_overflow(m_buffer, 1);
+			push_char(m_buffer, '0');
 			break;
 
 		case FLAGS_SHARP_HEXA:
-			index = check_overflow(main_buffer, index, 1);
-			index = push_char(main_buffer, '0', index);
-			index = check_overflow(main_buffer, index, 1);
-			index = push_char(main_buffer, 'x', index);
-			return (index);
+			check_overflow(m_buffer, 1);
+			push_char(m_buffer, '0');
+			check_overflow(m_buffer, 1);
+			push_char(m_buffer, 'x');
 			break;
 
 		case FLAGS_SHARP_HEXA_CAPS:
-			index = check_overflow(main_buffer, index, 1);
-			index = push_char(main_buffer, '0', index);
-			index = check_overflow(main_buffer, index, 1);
-			index = push_char(main_buffer, 'X', index);
-			return (index);
+			check_overflow(m_buffer, 1);
+			push_char(m_buffer, '0');
+			check_overflow(m_buffer, 1);
+			push_char(m_buffer, 'X');
 			break;
 			
 		default:
-			return (index);
 			break;
 		}
 	} 
-	return (0);
 }
 

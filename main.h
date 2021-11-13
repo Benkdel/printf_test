@@ -36,19 +36,23 @@
 #define BUFFERSIZE 1024
 
 /**
- * struct mods - keeps track of active modifiers
+ * main_buffer - keeps track of active modifiers
  * 
  * @f: flags modifiers: +, space or #
  * @p: precision modifieras: . followed by digits
  * @l: len modifiers: l or h
  * 
  */
-typedef struct mods
+struct main_buffer
 {
-	int f;
+        char *buffer_data;
+        unsigned int index;
+        unsigned int len;
+
+        int f;
 	int p;
 	int l;
-} mods;
+};
 
 /**
  * struct format_print - choose functions format
@@ -60,34 +64,33 @@ typedef struct mods
 typedef struct format_print
 {
 	char *fo;
-	int (*write_fun)(va_list, char *, unsigned int, mods*);
+	void (*write_fun)(va_list, struct main_buffer*);
 } f_print;
 
 /* prototypes */
 int _printf(const char *format, ...);
-int (*get_format_func(const char *, int))(va_list, char *, unsigned int, mods*);
+void (*get_format_func(const char *, int))(va_list, struct main_buffer*);
 int check_state(char);
 int check_sub_state(char);
 int check_sharp_state(char c);
 
 int get_sub_mod(const char c, int mod);
-int flags_modifier(char *main_buffer, unsigned int index, mods*);
-unsigned int push_char(char *, char, unsigned int);
-unsigned int write_buffer(char *r, unsigned int);
-int check_overflow(char *, unsigned int, unsigned int);
+void flags_modifier(struct main_buffer *m_buffer);
+void push_char(struct main_buffer *m_buffer, char c);
+void write_buffer(struct main_buffer *m_buffer);
+void check_overflow(struct main_buffer *m_buffer, unsigned int);
 
-
-int convert_base(char *, unsigned int, int, unsigned int, int);
+void convert_base(struct main_buffer *main_buffer, int, unsigned int, int);
 char *_strncpy(char *, char *, int);
 int _strlen(char *);
 
-int write_str(va_list, char *, unsigned int, mods*);
-int write_char(va_list, char *, unsigned int, mods*);
-int write_num(va_list, char *, unsigned int, mods*);
-int write_bin(va_list, char *, unsigned int, mods*);
-int write_hexa(va_list, char *, unsigned int, mods*);
-int write_HEXA(va_list, char *, unsigned int, mods*);
-int write_octal(va_list, char *, unsigned int, mods*);
-int write_unint(va_list, char *, unsigned int, mods*);
+void write_str(va_list, struct main_buffer *m_buffer);
+void write_char(va_list, struct main_buffer *m_buffer);
+void write_num(va_list, struct main_buffer *m_buffer);
+void write_bin(va_list, struct main_buffer *m_buffer);
+void write_hexa(va_list, struct main_buffer *m_buffer);
+void write_HEXA(va_list, struct main_buffer *m_buffer);
+void write_octal(va_list, struct main_buffer *m_buffer);
+void write_unint(va_list, struct main_buffer *m_buffer);
 
 #endif

@@ -8,23 +8,24 @@
  */
 int _printf(const char *format, ...)
 {
-	char *main_buffer;
-	mods *actModes = malloc(sizeof(mods));
+	struct main_buffer m_buffer;
+        va_list arg;
+	void (*chosen_fun)(va_list, struct main_buffer *m_buffer);
 	int i = 0, state = 0, sub_state = 0;
-	unsigned int index = 0;
-	va_list arg;
-	int (*chosen_fun)(va_list, char *, unsigned int, mods*);
-
-	actModes->f = 0, actModes->l = 0, actModes->p = 0;
-	/* reserve memory for main buffer - 1024 bytes */
-	main_buffer = (char *)malloc(sizeof(char) * BUFFERSIZE);
-	if (main_buffer == NULL)
+	
+	m_buffer.index = 0;
+    	m_buffer.len = 0;
+	m_buffer.f = 0;
+	m_buffer.p = 0;
+	m_buffer.l = 0;
+	m_buffer.buffer_data = malloc(sizeof(char) * BUFFERSIZE);
+	
+	if (m_buffer.buffer_data == NULL)
 		return (-1);
-
+	
 	if (format == NULL || (format[i] == '%' && format[i + 1] == '\0'))
 	{
-		free(main_buffer);
-		free(actModes);
+		free(m_buffer.buffer_data);
 		return (-1);
 	}
 
@@ -41,7 +42,7 @@ int _printf(const char *format, ...)
 				i++;
 				break;
 			default:
-				index = push_char(main_buffer, format[i], index);
+				push_char(&m_buffer, format[i]);
 				i++;
 				break;
 			}
@@ -50,7 +51,7 @@ int _printf(const char *format, ...)
 		case FORM_STATE:
 			if (format[i] == '%')
 			{
-				index = push_char(main_buffer, '%', index);
+				push_char(&m_buffer, '%');
 				state = NORM_STATE, i++;
 			}
 			else
@@ -60,17 +61,17 @@ int _printf(const char *format, ...)
 				switch (sub_state)
 				{
 				case FLAGS_SUB_STATE:
-					actModes->f = get_sub_mod(format[i], sub_state);
+					m_buffer.f = get_sub_mod(format[i], sub_state);
 					i++;
 					break;
 
 				case PREC_SUB_STATE:
-					actModes->p = get_sub_mod(format[i], sub_state);
+					m_buffer.p = get_sub_mod(format[i], sub_state);
 					i++;
 					break;
 
 				case LEN_SUB_STATE:
-					actModes->f = get_sub_mod(format[i], sub_state);
+					m_buffer.f = get_sub_mod(format[i], sub_state);
 					i++;
 					break;
 
@@ -79,13 +80,13 @@ int _printf(const char *format, ...)
 					chosen_fun = get_format_func(format, i);
 					if (chosen_fun != NULL)
 					{
-						if (actModes->f == FLAGS_SHARP)
-							actModes->f = check_sharp_state(format[i]);
-						index = chosen_fun(arg, main_buffer, index, actModes);
+						if (m_buffer.f == FLAGS_SHARP)
+							m_buffer.f = check_sharp_state(format[i]);
+						chosen_fun(arg, &m_buffer);
 					}
 					else if (format[i + 1] != '\0')
 					{
-						index = push_char(main_buffer, format[i - 1], index);
+						push_char(&m_buffer, format[i - 1]);
 						i--;
 					}
 					else
@@ -104,17 +105,17 @@ int _printf(const char *format, ...)
 
 	if (state != NORM_STATE && sub_state != SPEC_SUB_STATE)
 	{
-		free(main_buffer);
-		free(actModes);
+		free(m_buffer.buffer_data);
 		return (-1);
 	}
 	
 	/* print remaining data on buffer */
-	write_buffer(main_buffer, index);
-	free(main_buffer);
-	free(actModes);
+	
+	write_buffer(&m_buffer);
+	free(m_buffer.buffer_data);
+
 	if (format[i] == '\0')
-		return (index);
+		return (m_buffer.len);
 	else
 		return (-1);
 }

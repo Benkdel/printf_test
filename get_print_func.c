@@ -10,7 +10,7 @@
  *
  */
 
-int (*get_format_func(const char *format, int p))(va_list, char *, unsigned int, mods *m)
+void (*get_format_func(const char *format, int p))(va_list, struct main_buffer *m_buffer)
 {
 	f_print func[] = {
 		{"c", write_char},
