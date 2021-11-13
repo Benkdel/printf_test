@@ -99,4 +99,22 @@ void reverse_string(struct main_buffer *m_buffer, char *str)
 	}
 }
 
+/**
+ * struct_init - init main data structure
+ *
+ * @m_buffer: main data struc 
+ * 
+ * Return: non - void finct
+ */
+
+void struct_init (struct main_buffer *m_buffer)
+{
+	m_buffer->index = 0;
+	m_buffer->len = 0;
+	m_buffer->f = 0;
+	m_buffer->p = 0;
+	m_buffer->l = 0;
+	m_buffer->buffer_data = malloc(sizeof(char) * BUFFERSIZE);
+}
+
 

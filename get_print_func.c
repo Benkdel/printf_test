@@ -9,7 +9,7 @@
  * Return: pointer to function format
  *
  */
-void (*get_format_func(const char *f, int p))(va_list, struct main_buffer *)
+void (*get_format_func(const char f))(va_list, struct main_buffer *)
 {
 	f_print func[] = {
 		{"c", write_char},
@@ -29,7 +29,7 @@ void (*get_format_func(const char *f, int p))(va_list, struct main_buffer *)
 	i = 0;
 	while (i < 9)
 	{
-		if (f[p] == func[i].fo[0])
+		if (f == func[i].fo[0])
 			return (func[i].write_fun);
 		i++;
 	}
