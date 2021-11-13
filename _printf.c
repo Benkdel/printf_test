@@ -24,7 +24,6 @@ int _printf(const char *format, ...)
 		case NORM_STATE:
 			norm_state(format[i], &m_buffer, &state);
 			break;
-
 		case FORM_STATE:
 			sub_state = check_sub_state(format[i]);
 			if (form_state(sub_state, &state, &m_buffer, format[i]) == 0)
@@ -37,23 +36,15 @@ int _printf(const char *format, ...)
 					chosen_fun(arg, &m_buffer);
 				}
 				else if (format[i + 1] != '\0')
-				{
 					push_char(&m_buffer, format[i - 1]), i--;
-				}
 				else
 					return (-1);
 			}
 		}
 	}
 	va_end(arg);
-	if (state != NORM_STATE && sub_state != SPEC_SUB_STATE)
-	{
-		free(m_buffer.buffer_data);
+	if (gargabe_collector_2(&m_buffer, state, sub_state) < 0)
 		return (-1);
-	}
 	write_buffer(&m_buffer), free(m_buffer.buffer_data);
-	if (format[i] == '\0')
-		return (m_buffer.len);
-	else
-		return (-1);
+	return ((format[i] == '\0') ? m_buffer.len : -1);
 }

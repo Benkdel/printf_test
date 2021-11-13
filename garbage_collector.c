@@ -20,3 +20,22 @@ int gargabe_collector(struct main_buffer *m_buffer, const char *format)
 	}
 	return (0);
 }
+
+/**
+ * gargabe_collector_2 - validates and cleans memory if necessary
+ *
+ * @m_buffer: main data structure
+ * @state: int
+ * @sub_state: int
+ * 
+ * Return: 0 if all is ok / -1 if not
+ */
+int gargabe_collector_2(struct main_buffer *m_buffer, int state, int sub_state)
+{
+	if (state != NORM_STATE && sub_state != SPEC_SUB_STATE)
+	{
+		free(m_buffer->buffer_data);
+		return (-1);
+	}
+	return (0);
+}

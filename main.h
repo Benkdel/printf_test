@@ -80,6 +80,7 @@ void push_char(struct main_buffer *m_buffer, char c);
 void write_buffer(struct main_buffer *m_buffer);
 void check_overflow(struct main_buffer *m_buffer, unsigned int);
 int gargabe_collector(struct main_buffer *m_buffer, const char *);
+int gargabe_collector_2(struct main_buffer *m_buffer, int state, int sub_state);
 void norm_state(char c, struct main_buffer *m_buffer, int *state);
 int form_state (int sub_state, int *s, struct main_buffer *m_buffer, char f);
 void struct_init (struct main_buffer *m_buffer);

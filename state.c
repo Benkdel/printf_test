@@ -22,7 +22,7 @@ void norm_state (char c, struct main_buffer *m_buffer, int *state)
 }
 
 /**
- * form_state - checks dentro formato 
+ * form_state - checks dentro formato
  * 
  * @sub_state: estado dentro de formato
  * @m_buffer: main data struct
