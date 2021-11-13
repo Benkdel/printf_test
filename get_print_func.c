@@ -3,14 +3,13 @@
 /**
  * *get_format_func - evaluates which function is correct for each format
  *
- * @format: user input format
+ * @f: user input format
  * @p: pos
  *
  * Return: pointer to function format
  *
  */
-
-void (*get_format_func(const char *format, int p))(va_list, struct main_buffer *m_buffer)
+void (*get_format_func(const char *f, int p))(va_list, struct main_buffer *)
 {
 	f_print func[] = {
 		{"c", write_char},
@@ -30,7 +29,7 @@ void (*get_format_func(const char *format, int p))(va_list, struct main_buffer *
 	i = 0;
 	while (i < 9)
 	{
-		if (format[p] == func[i].fo[0])
+		if (f[p] == func[i].fo[0])
 			return (func[i].write_fun);
 		i++;
 	}

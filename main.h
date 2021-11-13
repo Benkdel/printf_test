@@ -79,6 +79,7 @@ void flags_modifier(struct main_buffer *m_buffer);
 void push_char(struct main_buffer *m_buffer, char c);
 void write_buffer(struct main_buffer *m_buffer);
 void check_overflow(struct main_buffer *m_buffer, unsigned int);
+int gargabe_collector(struct main_buffer *m_buffer, const char *);
 
 void convert_base(struct main_buffer *main_buffer, int, unsigned int, int);
 char *_strncpy(char *, char *, int);

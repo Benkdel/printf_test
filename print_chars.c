@@ -3,18 +3,15 @@
 /**
  * write_char - print %c
  * @args: string ...
- *
+ * @m_buffer: main data struct
  * Return: none - void function
  */
 void write_char(va_list args, struct main_buffer *m_buffer)
 {
 	char letter = va_arg(args, int);
-	
-	if (m_buffer != NULL)
-	{
-		if (m_buffer->f > 0)
-			flags_modifier(m_buffer);
-	}
+
+	if (m_buffer->f > 0)
+		flags_modifier(m_buffer);
 
 	check_overflow(m_buffer, 1);
 	push_char(m_buffer, letter);
@@ -23,7 +20,7 @@ void write_char(va_list args, struct main_buffer *m_buffer)
 /**
  * write_str - print %s
  * @args: string ...
- *
+ * @m_buffer: main data struct
  * Return: length write
  */
 void write_str(va_list args, struct main_buffer *m_buffer)
@@ -31,12 +28,9 @@ void write_str(va_list args, struct main_buffer *m_buffer)
 	int i = 0;
 	char *letters = va_arg(args, char *);
 	char *isnull = "(null)";
-	
-	if (m_buffer != NULL)
-	{
-		if (m_buffer->f > 0)
-			flags_modifier(m_buffer);
-	}
+
+	if (m_buffer->f > 0)
+		flags_modifier(m_buffer);
 
 	if (letters != NULL)
 	{

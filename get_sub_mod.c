@@ -1,14 +1,13 @@
 #include "main.h"
 
 /**
- * get_sub_mode - finds the correct sub mode for char passed
+ * get_sub_mod - finds the correct sub mode for char passed
  *
  * @c: char to be evaluated
- *
+ * @mod: current state
  * Return: correct int
  *
  */
-
 int get_sub_mod(const char c, int mod)
 {
 	char flags[] = {'+', ' ', '#'};
@@ -25,8 +24,6 @@ int get_sub_mod(const char c, int mod)
 				return (i + 4);
 		}
 		return (0);
-		break;
-
 	case PREC_SUB_STATE:
 		for (i = 0; i < 1; i++)
 		{
@@ -34,7 +31,6 @@ int get_sub_mod(const char c, int mod)
 				return (i + 7);
 		}
 		return (0);
-		break;
 	case LEN_SUB_STATE:
 		for (i = 0; i < 2; i++)
 		{
@@ -42,9 +38,7 @@ int get_sub_mod(const char c, int mod)
 				return (i + 8);
 		}
 		return (0);
-		break;
 	default:
 		return (0);
-		break;
 	}
 }
